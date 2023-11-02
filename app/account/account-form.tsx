@@ -1,6 +1,7 @@
 'use client';
 import { Database } from '@/types/database.types';
-import { Button, Container, TextInput } from '@mantine/core';
+import { Button, TextInput } from '@mantine/core';
+import { isEmail, isNotEmpty, useForm } from '@mantine/form';
 import {
   Session,
   createClientComponentClient,
@@ -8,14 +9,34 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import Avatar from './avatar';
 
+interface FormValues {
+    email: string | null;
+    username: string | null;
+    full_name: string | null;
+    website: string | null;
+    avatar_url: string | null;
+}
+
 export default function AccountForm({ session }: { session: Session | null }) {
+  const user = session?.user;
   const supabase = createClientComponentClient<Database>();
   const [loading, setLoading] = useState(true);
-  const [fullname, setFullname] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  const [website, setWebsite] = useState<string | null>(null);
-  const [avatar_url, setAvatarUrl] = useState<string | null>(null);
-  const user = session?.user;
+
+  const form = useForm<FormValues>({
+    initialValues: {
+      email: user?.email ?? '',
+      full_name: null,
+      username: null,
+      website: null,
+      avatar_url: null,
+    },
+
+    validate: {
+      email: isEmail('Please enter a valid email address'),
+      full_name: isNotEmpty('Please enter your full name'),
+      username: isNotEmpty('Please enter your username'),
+    },
+  });
 
   const getProfile = useCallback(async () => {
     try {
@@ -32,16 +53,14 @@ export default function AccountForm({ session }: { session: Session | null }) {
       }
 
       if (data) {
-        setFullname(data.full_name);
-        setUsername(data.username);
-        setWebsite(data.website);
-        setAvatarUrl(data.avatar_url);
+        form.setValues(data);
       }
     } catch (error) {
       alert('Error loading user data!');
     } finally {
       setLoading(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, supabase]);
 
   useEffect(() => {
@@ -49,21 +68,17 @@ export default function AccountForm({ session }: { session: Session | null }) {
   }, [user, getProfile]);
 
   async function updateProfile({
+    full_name,
     username,
     website,
     avatar_url,
-  }: {
-    username: string | null;
-    fullname: string | null;
-    website: string | null;
-    avatar_url: string | null;
-  }) {
+  }: FormValues) {
     try {
       setLoading(true);
 
       let { error } = await supabase.from('profiles').upsert({
         id: user?.id as string,
-        full_name: fullname,
+        full_name,
         username,
         website,
         avatar_url,
@@ -79,38 +94,27 @@ export default function AccountForm({ session }: { session: Session | null }) {
   }
 
   return (
-    <Container size='xs'>
-       <TextInput label='Email' value={session?.user.email} disabled/>
-       <TextInput label='Full Name'         value={fullname || ''}
-          onChange={(e) => setFullname(e.target.value)}/>
-             <TextInput label='Username'                  value={username || ''}
-          onChange={(e) => setUsername(e.target.value)} />
-      
-                  <TextInput label='Website'   type='url'                         value={website || ''}
-          onChange={(e) => setWebsite(e.target.value)} />
+    <form onSubmit={form.onSubmit((values) => updateProfile(values))}>
+       <TextInput label='Email' {...form.getInputProps('email')} disabled/>
+       <TextInput label='Full Name' {...form.getInputProps('full_name')}/>
+      <TextInput label='Username' {...form.getInputProps('username')} />
+      <TextInput label='Website' type='url' {...form.getInputProps('website')} />
       <Avatar
         uid={user?.id!}
-        url={avatar_url}
+        url={form.values.avatar_url}
         size={150}
         onUpload={(url) => {
-          setAvatarUrl(url);
-          updateProfile({ fullname, username, website, avatar_url: url });
+          // setAvatarUrl(url);
+          // updateProfile({ fullname, username, website, avatar_url: url });
         }}
       />
       <Button
         my='xs'
-          onClick={() =>
-            updateProfile({ fullname, username, website, avatar_url })
-          }
+          type='submit'
           loading={loading}
         >
           Update
         </Button>
-        <form action='/auth/signout' method='post'>
-          <Button type='submit'>
-            Sign out
-          </Button>
-        </form>
-    </Container>
+    </form>
   );
 }

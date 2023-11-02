@@ -1,7 +1,13 @@
-'use client';
+import type { MantineThemeOverride } from '@mantine/core';
+import Link from 'next/link';
 
-import { createTheme } from '@mantine/core';
-
-export const theme = createTheme({
-  /* Put your mantine theme override here */
-});
+export const theme: MantineThemeOverride = {
+  primaryColor: 'teal',
+  components: {
+    Anchor: {
+      defaultProps: {
+        component: Link,
+      },
+    },
+  },
+};
