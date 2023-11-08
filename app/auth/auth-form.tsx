@@ -9,12 +9,21 @@ import { ThemeSupa } from '@supabase/auth-ui-shared';
 export default function AuthForm() {
   const supabase = createClientComponentClient<Database>();
   const { colorScheme } = useMantineColorScheme();
-  
+
   return (
     <Auth
       supabaseClient={supabase}
       view="magic_link"
-      appearance={{ theme: ThemeSupa }}
+      appearance={{
+        theme: ThemeSupa,
+        variables: {
+          default: {
+            colors: {
+              brand: '#12b886',
+            },
+          },
+        },
+      }}
       theme={colorScheme}
       showLinks={true}
       providers={['google', 'facebook']}

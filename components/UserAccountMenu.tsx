@@ -1,9 +1,10 @@
 'use client';
 
-import { Button, Menu, UnstyledButton } from '@mantine/core';
+import { Button, Menu } from '@mantine/core';
 import type { Session } from '@supabase/auth-helpers-nextjs';
 import { IconLogout, IconUser } from '@tabler/icons-react';
 import Link from 'next/link';
+import SignOut from './SignOut';
 
 export default function UserAccountMenu({ session }: { session: Session | null }) {
   if (!session) return null;
@@ -31,11 +32,7 @@ export default function UserAccountMenu({ session }: { session: Session | null }
           Account
         </Menu.Item>
         <Menu.Item leftSection={<IconLogout size={16} stroke={1.5} />}>
-          <form action="/api/auth/signout" method="post">
-            <UnstyledButton type="submit" styles={{ root: { fontSize: 'inherit' } }}>
-              Sign out
-            </UnstyledButton>
-          </form>
+          <SignOut />
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>
