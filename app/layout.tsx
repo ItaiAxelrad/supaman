@@ -1,4 +1,3 @@
-import '@/styles/globals.css';
 import { theme } from '@/styles/theme';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
@@ -10,7 +9,7 @@ import BaseLayout from './base-layout';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'SupaNext',
+  title: 'SupaMan',
   description: 'A Next.js + Supabase + Mantine starter kit',
 };
 

@@ -1,8 +1,11 @@
-import { Button, Menu, MenuDropdown, MenuItem, MenuTarget } from '@mantine/core';
+'use client';
+
+import { Button, Menu, UnstyledButton } from '@mantine/core';
 import type { Session } from '@supabase/auth-helpers-nextjs';
+import { IconLogout, IconUser } from '@tabler/icons-react';
 import Link from 'next/link';
 
-export default async function UserAccountMenu({ session }: { session: Session | null }) {
+export default function UserAccountMenu({ session }: { session: Session | null }) {
   if (!session) return null;
   const user = session.user;
 
@@ -14,17 +17,27 @@ export default async function UserAccountMenu({ session }: { session: Session | 
       transitionProps={{ transition: 'pop-top-right' }}
       withinPortal
     >
-      <MenuTarget>
-        <Button variant="subtle" color="gray" radius="xl">
+      <Menu.Target>
+        <Button variant="subtle" color="text" radius="xl">
           {user.email}
         </Button>
-      </MenuTarget>
-
-      <MenuDropdown>
-        <MenuItem component={Link} href={`/account`}>
-          Profile
-        </MenuItem>
-      </MenuDropdown>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Menu.Item
+          component={Link}
+          href="/account"
+          leftSection={<IconUser size={16} stroke={1.5} />}
+        >
+          Account
+        </Menu.Item>
+        <Menu.Item leftSection={<IconLogout size={16} stroke={1.5} />}>
+          <form action="/api/auth/signout" method="post">
+            <UnstyledButton type="submit" styles={{ root: { fontSize: 'inherit' } }}>
+              Sign out
+            </UnstyledButton>
+          </form>
+        </Menu.Item>
+      </Menu.Dropdown>
     </Menu>
   );
 }

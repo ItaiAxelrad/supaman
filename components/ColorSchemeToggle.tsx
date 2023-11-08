@@ -1,6 +1,7 @@
 'use client';
 
 import { ActionIcon, useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
+import { IconMoon, IconSun } from '@tabler/icons-react';
 
 export default function ColorSchemeToggle() {
   const { setColorScheme } = useMantineColorScheme();
@@ -13,7 +14,7 @@ export default function ColorSchemeToggle() {
       size="lg"
       aria-label="Toggle color scheme"
     >
-      {computedColorScheme === 'light' ? <span role="img">☀️</span> : <span role="img">🌙</span>}
+      {computedColorScheme === 'light' ? <IconSun /> : <IconMoon />}
     </ActionIcon>
   );
 }

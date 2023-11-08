@@ -2,7 +2,7 @@ import { Badge, Container, Text } from '@mantine/core';
 
 export default function Home() {
   return (
-    <Container size="xs">
+    <Container size="xs" mt="xs">
       <Badge variant="light" size="xl">
         Fast, simple, secure.
       </Badge>
@@ -11,14 +11,14 @@ export default function Home() {
         lh="1"
         my="xs"
         fw={900}
-        // variant="gradient"
-        // gradient={{ from: 'teal', to: 'cyan', deg: 90 }}
+        variant="gradient"
+        gradient={{ from: 'teal', to: 'cyan', deg: 90 }}
       >
-        Next ➕<br /> Supabase ➕<br /> Mantine
+        Next.js ➕<br /> Supabase ➕<br /> Mantine
       </Text>
       <Text fz="xl">
-        Experience our Auth 🔒 and Storage through a simple profile management example. Create a user
-        profile and upload an avatar image.
+        Experience our Auth 🔒 and Storage through a simple profile management example. Create a
+        user profile and upload an avatar image.
       </Text>
     </Container>
   );
