@@ -1,3 +1,4 @@
+import ColorSchemeToggle from '@/components/ColorSchemeToggle';
 import { Database } from '@/types/database.types';
 import {
   ActionIcon,
@@ -24,27 +25,30 @@ export default async function BaseLayout({ children }: { children: React.ReactNo
       <AppShellHeader style={{ display: 'flex' }} px="xl">
         <Group justify="space-between" w="100%">
           <Group>
-            <ActionIcon href="/" component={Link}>
-              S
+            <ActionIcon href="/" component={Link} radius="xl">
+              ⚡
             </ActionIcon>
             <Anchor href="/" c="inherit" fw="bold" fz="xl" underline="never">
               Home
             </Anchor>
           </Group>
-          {session ? (
-            <form action="/api/auth/signout" method="post">
-              <Button type="submit" variant="default">
-                Sign out
+          <Group>
+            {session ? (
+              <form action="/api/auth/signout" method="post">
+                <Button type="submit" variant="default">
+                  Sign out
+                </Button>
+                <Button ml="xs" href="/account" component={Link}>
+                  Account
+                </Button>
+              </form>
+            ) : (
+              <Button href="/auth" component={Link}>
+                Sign in
               </Button>
-              <Button ml="xs" href="/account" component={Link}>
-                Account
-              </Button>
-            </form>
-          ) : (
-            <Button href="/auth" component={Link}>
-              Sign in
-            </Button>
-          )}
+            )}
+            <ColorSchemeToggle />
+          </Group>
         </Group>
       </AppShellHeader>
       <AppShellMain>{children}</AppShellMain>

@@ -1,20 +1,17 @@
 'use client';
 import { Database } from '@/types/database.types';
-import { Button, TextInput } from '@mantine/core';
+import { Button, Loader, TextInput } from '@mantine/core';
 import { isEmail, isNotEmpty, useForm } from '@mantine/form';
-import {
-  Session,
-  createClientComponentClient,
-} from '@supabase/auth-helpers-nextjs';
+import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useCallback, useEffect, useState } from 'react';
 import Avatar from './avatar';
 
 interface FormValues {
-    email: string | null;
-    username: string | null;
-    full_name: string | null;
-    website: string | null;
-    avatar_url: string | null;
+  email: string | null;
+  full_name: string | null;
+  username: string | null;
+  website: string | null;
+  avatar_url: string | null;
 }
 
 export default function AccountForm({ session }: { session: Session | null }) {
@@ -25,10 +22,10 @@ export default function AccountForm({ session }: { session: Session | null }) {
   const form = useForm<FormValues>({
     initialValues: {
       email: user?.email ?? '',
-      full_name: null,
-      username: null,
-      website: null,
-      avatar_url: null,
+      full_name: '',
+      username: '',
+      website: '',
+      avatar_url: '',
     },
 
     validate: {
@@ -60,19 +57,14 @@ export default function AccountForm({ session }: { session: Session | null }) {
     } finally {
       setLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, supabase]);
 
   useEffect(() => {
     getProfile();
   }, [user, getProfile]);
 
-  async function updateProfile({
-    full_name,
-    username,
-    website,
-    avatar_url,
-  }: FormValues) {
+  async function updateProfile({ full_name, username, website, avatar_url }: FormValues) {
     try {
       setLoading(true);
 
@@ -95,10 +87,23 @@ export default function AccountForm({ session }: { session: Session | null }) {
 
   return (
     <form onSubmit={form.onSubmit((values) => updateProfile(values))}>
-       <TextInput label='Email' {...form.getInputProps('email')} disabled/>
-       <TextInput label='Full Name' {...form.getInputProps('full_name')}/>
-      <TextInput label='Username' {...form.getInputProps('username')} />
-      <TextInput label='Website' type='url' {...form.getInputProps('website')} />
+      <TextInput label="Email" {...form.getInputProps('email')} disabled />
+      <TextInput
+        label="Full Name"
+        {...form.getInputProps('full_name')}
+        rightSection={loading && <Loader size="xs" />}
+      />
+      <TextInput
+        label="Username"
+        {...form.getInputProps('username')}
+        rightSection={loading && <Loader size="xs" />}
+      />
+      <TextInput
+        label="Website"
+        type="url"
+        {...form.getInputProps('website')}
+        rightSection={loading && <Loader size="xs" />}
+      />
       <Avatar
         uid={user?.id!}
         url={form.values.avatar_url}
@@ -108,13 +113,9 @@ export default function AccountForm({ session }: { session: Session | null }) {
           // updateProfile({ fullname, username, website, avatar_url: url });
         }}
       />
-      <Button
-        my='xs'
-          type='submit'
-          loading={loading}
-        >
-          Update
-        </Button>
+      <Button my="xs" type="submit" loading={loading}>
+        Update
+      </Button>
     </form>
   );
 }

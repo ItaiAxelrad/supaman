@@ -1,15 +1,19 @@
 'use client';
 
-import { Button, Group, useMantineColorScheme } from '@mantine/core';
+import { ActionIcon, useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
 
-export function ColorSchemeToggle() {
+export default function ColorSchemeToggle() {
   const { setColorScheme } = useMantineColorScheme();
+  const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
   return (
-    <Group justify="center" mt="xl">
-      <Button onClick={() => setColorScheme('light')}>Light</Button>
-      <Button onClick={() => setColorScheme('dark')}>Dark</Button>
-      <Button onClick={() => setColorScheme('auto')}>Auto</Button>
-    </Group>
+    <ActionIcon
+      onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
+      variant="default"
+      size="lg"
+      aria-label="Toggle color scheme"
+    >
+      {computedColorScheme === 'light' ? <span role="img">☀️</span> : <span role="img">🌙</span>}
+    </ActionIcon>
   );
 }
