@@ -22,7 +22,8 @@
     "supabase:pull": "npx supabase db pull",
     "typecheck": "tsc --noEmit",
     "update": "npm i npm-check-updates && ncu -u && npm install && npm audit fix",
-    "update-types": "npx supabase gen types typescript --project-id kwufoihegggpdorfqazx > types/supabase.types.ts"
+    "gen-types": "npx supabase gen types typescript --project-id kwufoihegggpdorfqazx > types/supabase.types.ts",
+    "gen-types-local": "npx supabase gen types typescript --local > types/supabase.types.ts"
   },
   "dependencies": {
     "@mantine/carousel": "^7.16.3",

@@ -12,7 +12,7 @@ import {
 import { IconBolt } from "@tabler/icons-react";
 import Link from "next/link";
 
-export default async function BaseLayout({
+export default function BaseLayout({
   children,
 }: {
   children: React.ReactNode;

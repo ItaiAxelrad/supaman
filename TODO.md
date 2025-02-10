@@ -1,7 +1,14 @@
 # TODO
 
-Be sure to set everything up for local dev!
-Why can't I access the data?
+Ultimate todo app with Next, Supabase and Mantine.
+
+Quickly change metadata and theme files.
+
+Local dev: init, add seed(s), schemas, migrations. Auth. Set env.local variables.
+**Add data via csv?**
+Generate type: hosted, local, and cron job.
+Add types to all db via create client
+Push to hosted or self host add links.
 
 ## MVP
 
@@ -17,7 +24,7 @@ Why can't I access the data?
 
 - [ ] Auth
 
-  - [ ] Social (GitHub, Google, Apple)
+  - [ ] Social (just GitHub for this example)
   - [ ] Email/Password
   - [ ] Forgot Password
 

@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import { Button, Container, Group, Text, Title } from "@mantine/core";
-import { IconChevronLeft, IconRefresh } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { Button, Container, Group, Text, Title } from '@mantine/core';
+import { IconChevronLeft, IconRefresh } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import BaseLayout from './(root)/layout';
 
 export default function Error({
   error,
@@ -19,25 +20,27 @@ export default function Error({
 
   const router = useRouter();
   return (
-    <Container size="xs" my="xl">
-      <Title>Server-side Error</Title>
-      <Text my="xs">
-        A server-side error occurred. Please try again or go back.
-      </Text>
-      <Group my="md">
-        <Button
-          leftSection={<IconChevronLeft size="1rem" />}
-          onClick={() => router.back()}
-        >
-          Go Back
-        </Button>
-        <Button
-          leftSection={<IconRefresh size="1rem" />}
-          onClick={() => reset()}
-        >
-          Try Again
-        </Button>
-      </Group>
-    </Container>
+    <BaseLayout>
+      <Container size='xs' my='xl'>
+        <Title>Server-side Error</Title>
+        <Text my='xs'>
+          A server-side error occurred. Please try again or go back.
+        </Text>
+        <Group my='md'>
+          <Button
+            leftSection={<IconChevronLeft size='1rem' />}
+            onClick={() => router.back()}
+          >
+            Go Back
+          </Button>
+          <Button
+            leftSection={<IconRefresh size='1rem' />}
+            onClick={() => reset()}
+          >
+            Try Again
+          </Button>
+        </Group>
+      </Container>
+    </BaseLayout>
   );
 }
